@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSFD - Giriş Yap</title>
+
+    <script>
+    (function() {
+        'use strict';
+        
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        
+        
+        document.addEventListener('keydown', e => {
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        document.addEventListener('selectstart', e => e.preventDefault());
+        document.addEventListener('copy', e => e.preventDefault());
+        
+        let devtoolsOpen = false;
+        const element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function() {
+                devtoolsOpen = true;
+                blockPage();
+            }
+        });
+        
+        const detectDevTools = () => {
+            const widthThreshold = window.outerWidth - window.innerWidth > 160;
+            const heightThreshold = window.outerHeight - window.innerHeight > 160;
+            
+            if (widthThreshold || heightThreshold || devtoolsOpen) {
+                blockPage();
+            }
+            
+            console.log(element);
+            console.clear();
+        };
+        
+        function blockPage() {
+            document.body.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, #000000, #1a1a1a);
+                    color: #ff0000;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: Arial, sans-serif;
+                    z-index: 999999;
+                ">
+                    <h1 style="font-size: 48px; margin-bottom: 20px;">⚠️ UYARI</h1>
+                    <p style="font-size: 24px;">Developer Tools Tespit Edildi!</p>
+                    <p style="font-size: 18px; margin-top: 10px; color: #ff6666;">Sayfa güvenlik nedeniyle kapatılmıştır.</p>
+                </div>
+            `;
+            setTimeout(() => {
+                window.location.href = 'about:blank';
+            }, 2000);
+        }
+        
+        setInterval(detectDevTools, 500);
+        
+        setInterval(() => {
+            (function() {
+                return false;
+            }['constructor']('debugger')['call']());
+        }, 100);
+        
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+        
+        const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'dirxml', 'group', 'groupEnd', 'time', 'timeEnd', 'profile', 'profileEnd', 'clear'];
+        methods.forEach(method => {
+            console[method] = function() {};
+        });
+        
+    })();
+    </script>
+
+    <style>
+    * {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+    }
+    </style>
+    <!-- PANELİNİZİ KAPATMANIZ GEREKİYOR -->
+    
+    <link rel="icon" type="image/png" href="https://i.imgur.com/niSY7Na.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/niSY7Na.png">
+
+<style>
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+</style>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: -0.01em;
+            background-color: #1a1d21;
+        }
+        .login-container {
+            background: #2A2E33;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .input-field {
+            background: #1f2327;
+            border: 2px solid #3f444a;
+            color: #f3f4f6;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #991b1b;
+            box-shadow: 0 0 0 3px rgba(153, 27, 27, 0.1);
+        }
+        .login-button {
+            background: linear-gradient(135deg, #991b1b, #7f1d1d);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        .login-button:hover::before {
+            left: 100%;
+        }
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(153, 27, 27, 0.4);
+        }
+        .login-button:active {
+            transform: translateY(0);
+        }
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .error-message {
+            background: rgba(153, 27, 27, 0.2);
+            border: 1px solid #991b1b;
+            color: #fca5a5;
+        }
+        .field-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #e5e7eb;
+        }
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .7;
+            }
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in-down {
+            animation: fadeInDown 0.3s ease-out;
+        }
+        .loading-spinner {
+            border: 3px solid #3f444a;
+            border-top: 3px solid #991b1b;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4">
+    <div class="w-full max-w-md">
+        
+        <!-- Logo ve Başlık -->
+        <div class="text-center mb-8">
+            <img src="https://i.imgur.com/ngOEnwW.png" 
+                 alt="LSFD" 
+                 style="width: 400px; height: auto;" 
+                 class="mx-auto mb-6 opacity-90 pulse-animation">
+            <h1 class="text-2xl font-semibold text-gray-100 tracking-tight mb-2">Rapor Sistemi Girişi</h1>
+            <p class="text-sm text-gray-400">Yetkili personel girişi</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="login-container rounded-lg p-8">
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                
+                <!-- Kullanıcı Adı -->
+                <div class="mb-6">
+                    <label class="field-label block mb-2">Kullanıcı Adı</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        class="input-field w-full px-4 py-3 rounded-lg"
+                        placeholder="Kullanıcı adınızı girin"
+                        required
+                        autocomplete="username">
+                </div>
+
+                <!-- Şifre -->
+                <div class="mb-6">
+                    <label class="field-label block mb-2">Şifre</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="input-field w-full px-4 py-3 rounded-lg"
+                        placeholder="Şifrenizi girin"
+                        required
+                        autocomplete="current-password">
+                </div>
+
+                <!-- Hata Mesajı -->
+                <div id="errorMessage" class="error-message rounded-lg p-4 mb-6 hidden">
+                    <p class="text-sm font-medium">✖ Kullanıcı adı veya şifre hatalı!</p>
+                </div>
+
+                <!-- Giriş Butonu -->
+                <button 
+                    type="submit" 
+                    id="loginButton"
+                    class="login-button w-full text-white font-semibold py-4 rounded-lg uppercase tracking-wide text-sm flex items-center justify-center">
+                    <span id="buttonText">Giriş Yap</span>
+                    <div id="buttonSpinner" class="loading-spinner ml-2 hidden"></div>
+                </button>
+
+            </form>
+        </div>
+
+        <!-- Bilgi Notu -->
+        <div class="mt-8 text-center">
+            <p class="text-xs text-gray-500">
+                🔒 Bu sistem yalnızca yetkili LSFD personeline açıktır.<br>
+                Erişim sorunları için sistem yöneticinize başvurun.
+            </p>
+        </div>
+
+        <!-- Copyright -->
+        <div class="text-center mt-8">
+            <p class="text-xs text-gray-600 opacity-50">© 2025 evcleia - LSFD Rapor Sistemi</p>
+        </div>
+    </div>
+
+    <script>
+        let authorizedUsers = null;
+
+        // users.json dosyasını yükle
+        async function loadUsers() {
+            try {
+                const response = await fetch('users.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                authorizedUsers = data.users;
+                console.log('✅ Kullanıcı verisi yüklendi');
+                return true;
+            } catch (error) {
+                console.error('❌ Kullanıcı verisi yüklenirken hata:', error);
+                return false;
+            }
+        }
+
+        // Şifreyi hash'le (SHA-256)
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.querySelector('p').textContent = '✖ ' + message;
+            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('fade-in-down');
+            setTimeout(() => {
+                errorMessage.classList.remove('fade-in-down');
+            }, 300);
+        }
+
+        function setLoading(isLoading) {
+            const button = document.getElementById('loginButton');
+            const buttonText = document.getElementById('buttonText');
+            const buttonSpinner = document.getElementById('buttonSpinner');
+            
+            if (isLoading) {
+                button.disabled = true;
+                buttonText.textContent = 'Giriş Yapılıyor...';
+                buttonSpinner.classList.remove('hidden');
+            } else {
+                button.disabled = false;
+                buttonText.textContent = 'Giriş Yap';
+                buttonSpinner.classList.add('hidden');
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hata mesajını gizle
+            errorMessage.classList.add('hidden');
+            
+            // Loading durumu
+            setLoading(true);
+
+            // Kullanıcı listesi yüklenmemişse yükle
+            if (!authorizedUsers) {
+                const loaded = await loadUsers();
+                if (!loaded) {
+                    setLoading(false);
+                    showError('Kullanıcı veritabanına erişilemiyor. Lütfen sistem yöneticinize başvurun.');
+                    return;
+                }
+            }
+
+            // Şifreyi hash'le
+            const hashedPassword = await hashPassword(password);
+            
+            console.log('🔍 Giriş denemesi:');
+            console.log('   Kullanıcı:', username);
+            console.log('   Girilen şifrenin hash:', hashedPassword);
+            console.log('   Kullanıcı verisi:', authorizedUsers[username]);
+
+            // Kullanıcı kontrolü
+            const userData = authorizedUsers[username];
+            
+            // Eski format (string) veya yeni format (object) kontrolü
+            let isPasswordCorrect = false;
+            if (typeof userData === 'string') {
+                // Eski format: "username": "hash"
+                isPasswordCorrect = userData === hashedPassword;
+            } else if (userData && userData.password) {
+                // Yeni format: "username": { "password": "hash", "rank": "...", "fullName": "..." }
+                isPasswordCorrect = userData.password === hashedPassword;
+            }
+            
+            if (isPasswordCorrect) {
+                // Başarılı giriş
+                const loginTime = new Date().toISOString();
+                
+                sessionStorage.setItem('lsfdUser', username);
+                sessionStorage.setItem('lsfdAuth', 'true');
+                sessionStorage.setItem('lsfdLoginTime', loginTime);
+                
+                // Rütbe ve tam ad varsa kaydet
+                if (typeof userData === 'object') {
+                    sessionStorage.setItem('lsfdRank', userData.rank || 'Personel');
+                    sessionStorage.setItem('lsfdFullName', userData.fullName || username);
+                } else {
+                    sessionStorage.setItem('lsfdRank', 'Personel');
+                    sessionStorage.setItem('lsfdFullName', username);
+                }
+                
+                // Başarılı giriş animasyonu
+                const button = document.getElementById('loginButton');
+                button.style.background = 'linear-gradient(135deg, #16a34a, #15803d)';
+                document.getElementById('buttonText').textContent = '✓ Giriş Başarılı';
+                
+                // Ana sayfaya yönlendir
+                setTimeout(() => {
+                    window.location.href = 'main.html';
+                }, 500);
+            } else {
+                // Hatalı giriş
+                setLoading(false);
+                showError('Kullanıcı adı veya şifre hatalı!');
+            }
+        }
+
+        // Sayfa yüklendiğinde kontroller
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Kullanıcı listesini önceden yükle
+            await loadUsers();
+            
+            // Zaten giriş yapılmış mı kontrol et
+            if (sessionStorage.getItem('lsfdAuth') === 'true') {
+                window.location.href = 'main.html';
+            }
+        });
+
+        // Enter tuşu ile form gönderme
+        document.getElementById('password').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleLogin(e);
+            }
+        });
+    </script>
+</body>
+</html>

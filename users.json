@@ -1,0 +1,24 @@
+{
+  "users": {
+    "Elena Garcia": {
+      "password": "69a9d716b015c36a5820b135c3b7c006bbd3c68627c8b6949a24b93708714eed",
+      "rank": "Fire Engineer / Paramedic",
+      "fullName": "Elena Garcia"
+    },
+    "Hector Torquemada": {
+      "password": "4e18757fae07d33dc134c0257a6d26fec2117570055f0705793c916f6f616458",
+      "rank": "Fire Engineer",
+      "fullName": "Hector T. Torquemada"
+    },
+    "doctor": {
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "rank": "Medical Director",
+      "fullName": "Dr. Michael Chen"
+    },
+    "firefighter": {
+      "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+      "rank": "Firefighter",
+      "fullName": "James Wilson"
+    }
+  }
+}

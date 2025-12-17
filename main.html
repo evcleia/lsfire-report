@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSFD - Rapor Sistemi</title>
+    
+     <script>
+    (function() {
+        'use strict';
+        
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        
+        
+        document.addEventListener('keydown', e => {
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        document.addEventListener('selectstart', e => e.preventDefault());
+        document.addEventListener('copy', e => e.preventDefault());
+        
+        let devtoolsOpen = false;
+        const element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function() {
+                devtoolsOpen = true;
+                blockPage();
+            }
+        });
+        
+        const detectDevTools = () => {
+            const widthThreshold = window.outerWidth - window.innerWidth > 160;
+            const heightThreshold = window.outerHeight - window.innerHeight > 160;
+            
+            if (widthThreshold || heightThreshold || devtoolsOpen) {
+                blockPage();
+            }
+            
+            console.log(element);
+            console.clear();
+        };
+        
+        function blockPage() {
+            document.body.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, #000000, #1a1a1a);
+                    color: #ff0000;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: Arial, sans-serif;
+                    z-index: 999999;
+                ">
+                    <h1 style="font-size: 48px; margin-bottom: 20px;">⚠️ UYARI</h1>
+                    <p style="font-size: 24px;">Developer Tools Tespit Edildi!</p>
+                    <p style="font-size: 18px; margin-top: 10px; color: #ff6666;">Sayfa güvenlik nedeniyle kapatılmıştır.</p>
+                </div>
+            `;
+            setTimeout(() => {
+                window.location.href = 'about:blank';
+            }, 2000);
+        }
+        
+        setInterval(detectDevTools, 500);
+        
+        setInterval(() => {
+            (function() {
+                return false;
+            }['constructor']('debugger')['call']());
+        }, 100);
+        
+        if (window.top !== window.self) {
+            window.top.location = window.self.location;
+        }
+        
+        const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'dirxml', 'group', 'groupEnd', 'time', 'timeEnd', 'profile', 'profileEnd', 'clear'];
+        methods.forEach(method => {
+            console[method] = function() {};
+        });
+        
+    })();
+    </script>
+
+    <style>
+    * {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+    }
+    </style>
+    <!-- PANELİNİZİ KAPATMANIZ GEREKİYOR -->
+    
+    <link rel="icon" type="image/png" href="https://i.imgur.com/niSY7Na.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: -0.01em;
+            background-color: #1a1d21;
+        }
+        .card {
+            background: #2A2E33;
+            border: 2px solid #3f444a;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            border-color: #991b1b;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(153, 27, 27, 0.3);
+        }
+        .header-bar {
+            background: linear-gradient(135deg, #2A2E33, #1f2327);
+            border-bottom: 2px solid #3f444a;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+        .logout-btn {
+            background: linear-gradient(135deg, #991b1b, #7f1d1d);
+            transition: all 0.3s ease;
+        }
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(153, 27, 27, 0.4);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    
+    <!-- Header -->
+    <header class="header-bar p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="https://i.imgur.com/niSY7Na.png" alt="LSFD" class="h-12">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-100">LSFD Rapor Sistemi</h1>
+                    <p class="text-xs text-gray-400">Los Santos Fire Department</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="text-right">
+                    <p class="text-sm font-semibold text-gray-100" id="userFullName">-</p>
+                    <p class="text-xs text-gray-400" id="userRank">-</p>
+                </div>
+                <button onclick="logout()" class="logout-btn px-4 py-2 rounded-lg text-white text-sm font-semibold">
+                    Çıkış Yap
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto p-6">
+        
+        <!-- Hoşgeldiniz Mesajı -->
+        <div class="card rounded-lg p-6 mb-8 fade-in">
+            <h2 class="text-2xl font-bold text-gray-100 mb-2">Merhaba,</p></h2>
+            <p class="text-gray-400">Lütfen doldurmak istediğiniz rapor formunu seçin.</p>
+        </div>
+
+        <!-- Form Kartları -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- NFIRS-1 -->
+            <div class="card rounded-lg p-6 cursor-pointer fade-in" style="animation-delay: 0.1s" onclick="openForm('nfirs1')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="bg-red-900/30 p-3 rounded-lg">
+                        <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xs bg-red-900/50 text-red-300 px-3 py-1 rounded-full font-semibold">NFIRS</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-100 mb-2">NFIRS-1</h3>
+                <p class="text-sm text-gray-400">Olay Raporu - Genel olay bilgileri</p>
+            </div>
+
+            <!-- NFIRS-3 -->
+            <div class="card rounded-lg p-6 cursor-pointer fade-in" style="animation-delay: 0.2s" onclick="openForm('nfirs3')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="bg-orange-900/30 p-3 rounded-lg">
+                        <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xs bg-orange-900/50 text-orange-300 px-3 py-1 rounded-full font-semibold">NFIRS</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-100 mb-2">NFIRS-3</h3>
+                <p class="text-sm text-gray-400">Yangın Raporu - Yangın detayları</p>
+            </div>
+
+            <!-- NFIRS-4 -->
+            <div class="card rounded-lg p-6 cursor-pointer fade-in" style="animation-delay: 0.3s" onclick="openForm('nfirs4')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="bg-yellow-900/30 p-3 rounded-lg">
+                        <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xs bg-yellow-900/50 text-yellow-300 px-3 py-1 rounded-full font-semibold">NFIRS</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-100 mb-2">NFIRS-4</h3>
+                <p class="text-sm text-gray-400">Yapı ve Mülk Raporu</p>
+            </div>
+
+            <!-- NFIRS-5 -->
+            <div class="card rounded-lg p-6 cursor-pointer fade-in" style="animation-delay: 0.4s" onclick="openForm('nfirs5')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="bg-blue-900/30 p-3 rounded-lg">
+                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xs bg-blue-900/50 text-blue-300 px-3 py-1 rounded-full font-semibold">NFIRS</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-100 mb-2">NFIRS-5</h3>
+                <p class="text-sm text-gray-400">Yaralı/Ölüm Raporu</p>
+            </div>
+
+            <!-- PCR -->
+            <div class="card rounded-lg p-6 cursor-pointer fade-in" style="animation-delay: 0.5s" onclick="openForm('pcr')">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="bg-green-900/30 p-3 rounded-lg">
+                        <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xs bg-green-900/50 text-green-300 px-3 py-1 rounded-full font-semibold">MEDICAL</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-100 mb-2">PCR</h3>
+                <p class="text-sm text-gray-400">Patient Care Report - Hasta bakım raporu</p>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-12">
+            <p class="text-xs text-gray-600">© 2025 evcleia - LSFD Rapor Sistemi</p>
+        </div>
+
+    </main>
+
+    <script>
+        // Sayfa yüklendiğinde kontroller
+        window.addEventListener('DOMContentLoaded', () => {
+            // Giriş kontrolü
+            if (sessionStorage.getItem('lsfdAuth') !== 'true') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Kullanıcı bilgilerini göster
+            const fullName = sessionStorage.getItem('lsfdFullName') || 'Kullanıcı';
+            const rank = sessionStorage.getItem('lsfdRank') || 'Personel';
+            
+            document.getElementById('userFullName').textContent = fullName;
+            document.getElementById('userRank').textContent = rank;
+        });
+
+        function logout() {
+            // Session'ı temizle
+            sessionStorage.clear();
+            
+            // Login sayfasına yönlendir
+            window.location.href = 'index.html';
+        }
+
+        function openForm(formType) {
+            // Form sayfalarına yönlendir
+            const formPages = {
+                'nfirs1': 'nfirs1.html',
+                'nfirs3': 'nfirs3.html',
+                'nfirs4': 'nfirs4.html',
+                'nfirs5': 'nfirs5.html',
+                'pcr': 'pcr.html'
+            };
+
+            if (formPages[formType]) {
+                window.location.href = formPages[formType];
+            } else {
+                alert('Bu form henüz hazır değil.');
+            }
+        }
+    </script>
+
+</body>
+</html>
