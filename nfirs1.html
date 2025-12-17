@@ -558,16 +558,34 @@ ${formTarihi}[/indent][/size][/tdwidth]`;
         }
 
         function copyToClipboard() {
-            const output = document.getElementById('output');
-            output.select();
-            document.execCommand('copy');
-            
-            const copyText = document.getElementById('copyText');
-            copyText.textContent = '✓ Kopyalandı!';
-            setTimeout(() => {
-                copyText.textContent = '📋 Kopyala';
-            }, 2000);
-        }
+    const output = document.getElementById('output');
+    
+    // Modern API kullanarak kopyalama
+    navigator.clipboard.writeText(output.value).then(() => {
+        const copyText = document.getElementById('copyText');
+        copyText.textContent = '✓ Kopyalandı!';
+        setTimeout(() => {
+            copyText.textContent = '📋 Kopyala';
+        }, 2000);
+    }).catch(err => {
+        // Fallback: Geçici olarak copy event'i etkinleştir
+        const copyHandler = (e) => {
+            e.clipboardData.setData('text/plain', output.value);
+            e.preventDefault();
+            document.removeEventListener('copy', copyHandler);
+        };
+        
+        document.addEventListener('copy', copyHandler);
+        output.select();
+        document.execCommand('copy');
+        
+        const copyText = document.getElementById('copyText');
+        copyText.textContent = '✓ Kopyalandı!';
+        setTimeout(() => {
+            copyText.textContent = '📋 Kopyala';
+        }, 2000);
+    });
+}   
     </script>
 
 </body>
