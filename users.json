@@ -10,10 +10,10 @@
       "rank": "Fire Engineer",
       "fullName": "Hector T. Torquemada"
     },
-    "doctor": {
-      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-      "rank": "Medical Director",
-      "fullName": "Dr. Michael Chen"
+    "Leon Chaz": {
+      "password": "62233420e24ba13711b98e8b83a96207fccf1d350dcc9f66c1b9b563c6f0acbc",
+      "rank": "Fire Captain I",
+      "fullName": "Leon Chaz"
     },
     "firefighter": {
       "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
