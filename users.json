@@ -15,10 +15,10 @@
       "rank": "Fire Captain I",
       "fullName": "Leon Chaz"
     },
-    "firefighter": {
-      "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
-      "rank": "Firefighter",
-      "fullName": "James Wilson"
+    "Susan Lim": {
+      "password": "631a411ce2743f82a4acb6fe81f171b80affeb50fcce7fd4378e66ac890ff1a6",
+      "rank": "Firefighter III / PM",
+      "fullName": "Susan Lim"
     }
   }
 }
